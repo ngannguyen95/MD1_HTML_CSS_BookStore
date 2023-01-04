@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lí danh sách sản phẩm</title>
+    <style>
+        tr {
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css"
+          integrity="sha512-YFENbnqHbCRmJt5d+9lHimyEMt8LKSNTMLSaHjvsclnZGICeY/0KYEeiHwD1Ux4Tcao0h60tdcMv+0GljvWyHg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="main.css">
+    <!--    <script src="stock.js"></script>-->
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #3333">
+    <div class="container-fluid">
+        <a href=""><img style="height: 80px" src="image/logo.png"></a>
+        <a class="navbar-brand" href="http://nhanam.com.vn/tin-tuc/5/gioi-thieu">Giới thiệu</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.html">Trang chủ</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link " href="cart.html">Giỏ hàng</a>
+                </li>
+                <li class="nav-item" id="register">
+
+                </li>
+                <li class="nav-item" id="login">
+
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+
+<div style="text-align: center">
+    <h4 style="color: #706059; font-weight: bold ">Quản lí danh sách nhập vào</h4>
+    <lable id="validate" style="color: red"></lable>
+    <!--    <input id="newBook" style="width: 500px" type="text">-->
+    <!--    <button onclick="createBook()" style="background-color: #84fab0 "  >Create</button>-->
+    <br>
+    <input  oninput="searchBook()" id="search" style="width: 500px" type="text" placeholder="Nhập vào tên sách để tìm kiếm">
+<!--    <button onclick="searchBook()" style="background-color: #d7a7a7 ">Tìm kiếm</button>-->
+    <button  class="btn btn" data-bs-toggle="modal" data-bs-target="#createBook"
+             data-bs-whatever="createBook"><i class="bi bi-folder-plus"></i></button>
+
+</div>
+<script src='jsFile/stock.js'></script>
+<table border="1" style="width: 100%">
+    <tr>
+        <th>STT</th>
+        <th>Hình ảnh</th>
+        <th>Tên sách</th>
+        <th>Thể loại</th>
+        <th>Gía</th>
+        <th>Sửa</th>
+        <th>Xóa</th>
+    </tr>
+    <tbody id="drawTable"></tbody>
+</table>
+
+<!--update Book-->
+<div class="modal fade" id="updateBook" tabindex="-1" aria-labelledby="updateBookLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateBookLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label  class="col-form-label">Hình ảnh:</label>
+                        <input type="text" class="form-control" id="update_img">
+                    </div>
+                    <div class="mb-3">
+                        <label  class="col-form-label">Tên sách:</label>
+                        <input type="text" class="form-control" id="update_name">
+                    </div><div class="mb-3">
+                        <label  class="col-form-label">Thể loại:</label>
+                        <input type="text" class="form-control" id="update_category">
+                    </div><div class="mb-3">
+                        <label  class="col-form-label">Gía:</label>
+                        <input type="text" class="form-control" id="update_price">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveChange()" data-bs-dismiss="modal">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--creat Book-->
+<div class="modal fade" id="createBook" tabindex="-1" aria-labelledby="createBookLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createBookLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label  class="col-form-label">Hình ảnh:</label>
+                        <input type="text" class="form-control" id="creat_img">
+                    </div>
+                    <div class="mb-3">
+                        <label  class="col-form-label">Tên sách:</label>
+                        <input type="text" class="form-control" id="creat_name">
+                    </div><div class="mb-3">
+                    <label  class="col-form-label">Thể loại:</label>
+                    <input type="text" class="form-control" id="creat_category">
+                </div><div class="mb-3">
+                    <label  class="col-form-label">Gía:</label>
+                    <input type="text" class="form-control" id="creat_price">
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveCreatChange()" data-bs-dismiss="modal">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // localStorage.setItem('stock',JSON.stringify(database))
+    let stock = JSON.parse(localStorage.getItem('stock'));
+    if (stock == null){
+        stock = [];
+    }
+    let listSearch = [];
+
+    function showListBook() {
+        let i = 1;
+        const drawTable = stock.map(item => {
+            return ` <tr>
+                <td>  ${i++}</td>
+                <td><img src = ${item.img} style="height: 50px; width= 50px"></td>
+                <td>  ${item.name}  </td>
+                <td> ${item.category} </td>
+                <td> ${item.price.toLocaleString('vi', {
+                style: 'currency',
+                currency: 'VND'
+            })} </td>
+
+                 <td class="btn-change"><button  class="btn btn" data-bs-toggle="modal" data-bs-target="#updateBook"
+                               data-bs-whatever="${item.id}"  onclick=" updateBook(${item.id})"><i class="bi bi-pen"></i></button></td>
+                 <td class="btn-change"><button  class="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModalDelete"
+                               data-bs-whatever="${item.id}" onclick="deleteBook(${item.id})"><i class="bi bi-trash3-fill"></i></button></td>
+                </tr>`
+        })
+        document.getElementById('drawTable').innerHTML = drawTable;
+    }
+    showListBook();
+//
+//     function updateBook(index) {
+//         let product = {};
+//         stock.forEach(item => {
+//             if (item.id && item.id.toString() === index.toString()) {
+//                 product = item;
+//             }
+//         })
+//         console.log(111111, product)
+//         if (product && product.id) {
+//             document.getElementById('update').innerHTML = `<form name="create">
+//     <h2>Update Book</h2>
+//     <label>Hình ảnh sản phẩm:</label><br>
+//     <input type="text" id="img" name="img" value=${product.img}><br>
+//     <label >Tên sản phẩm:</label><br>
+//     <input type="text" id="name" name="name" value=${product.name}><br><br>
+//     <label >Thể loại</label><br>
+//     <input type="text" id="category" name="category" value=${product.category}><br><br>
+//     <label >Giá cả</label><br>
+//     <input type="text" id="price" name="price"  value=${product.price}><br><br>
+// <!--    <input type="submit" onclick="returnSearchBook()" value="Thêm mới">-->
+//     <input onclick="update(${product.id})" value="Update" type="button" >
+// </form>`;
+//         }
+//     }
+
+    // function update(id) {
+    //     console.log(333333, id)
+    //     const data = {
+    //         id: id,
+    //         img: document.forms['create'].img.value,
+    //         name: document.forms['create'].name.value,
+    //         category: document.forms['create'].category.value,
+    //         price: document.forms['create'].price.value,
+    //     }
+    //     console.log(data)
+    //     stock.forEach(item => {
+    //         if (item.id && item.id.toString() === id.toString()) {
+    //             item.name = data.name;
+    //             item.category = data.category;
+    //             item.img = data.img;
+    //             item.price = data.price;
+    //         }
+    //     })
+    //     console.log(stock)
+    //     localStorage.setItem('stock', JSON.stringify(stock));
+    //     alert("Update thành công!");
+    //     location.href = 'listbook.html';
+    // }
+    function findById(id) {
+        for (let i = 0; i < stock.length; i++) {
+            if(id==stock[i].id){
+                return stock[i];
+            }
+        }
+    }
+
+    let updateId;
+    function updateBook(id) {
+        console.log(id)
+        let updateBook = findById(id);
+        updateId = id;
+        document.getElementById('update_img').value = updateBook.img;
+        document.getElementById('update_name').value= updateBook.name;
+        document.getElementById('update_category').value = updateBook.category;
+        document.getElementById('update_price').value = updateBook.price;
+    }
+
+    function saveChange() {
+       let newImg=  document.getElementById('update_img').value;
+       let newName= document.getElementById('update_name').value;
+       let newCat =  document.getElementById('update_category').value;
+        let newPrice =  +document.getElementById('update_price').value;
+        for (let i = 0; i < stock.length; i++) {
+            if(stock[i].id==updateId){
+                stock[i].img= newImg;
+                stock[i].name = newName;
+                stock[i].category = newCat;
+                stock[i].price = newPrice;
+                break;
+            }
+        }
+        localStorage.setItem('stock',JSON.stringify(stock))
+        location.reload();
+    }
+
+    function saveCreatChange() {
+        let idNew;
+        if (stock.length==0){
+            idNew = 1;
+        }else {
+            idNew = stock[stock.length-1].id +1
+        }
+        const data ={
+            id: idNew,
+            img: document.getElementById('creat_img').value,
+            name: document.getElementById('creat_name').value,
+            category: document.getElementById('creat_category').value,
+            price: +document.getElementById('creat_price').value,
+        }
+        stock.push(data);
+        localStorage.setItem('stock', JSON.stringify(stock));
+        location.reload();
+        alert("Thêm mới thành công!");
+
+    }
+
+
+
+    function deleteBook(name) {
+        if (confirm('Bạn có muốn xóa ?')) {
+            stock.map((e, index) => {
+                if (e.id) {
+                    if (e.id.toString() === name.toString()) {
+                        stock.splice(index, 1)
+                    }
+                }
+            })
+            localStorage.setItem('stock', JSON.stringify(stock));
+            location.reload();
+            alert('xóa thành công');
+
+        } else {
+            document.getElementById('validate').innerHTML = ''
+        }
+
+    }
+
+    function searchBook() {
+        let search = document.getElementById('search').value;
+        if (search.trim() == '') {
+            showListBook();
+        } else {
+            listSearch = [];
+            for (let i = 0; i < stock.length; i++) {
+                if (stock[i].name.toLowerCase().includes(search.toLowerCase())) {
+                    listSearch.push(stock[i])
+
+                }
+            }
+            showListSearch();
+        }
+
+    }
+
+    function showListSearch() {
+        let i = 1;
+        const drawTable = listSearch.map(item => {
+            return ` <tr>
+                <td>  ${i++}</td>
+                <td><img src = ${item.img} style="height: 50px; width= 50px"></td>
+                <td>  ${item.name}  </td>
+                <td> ${item.category} </td>
+                <td> ${item.price.toLocaleString('vi', {
+                style: 'currency',
+                currency: 'VND'
+            })} </td>
+
+                 <td class="btn-change"><button  class="btn btn" data-bs-toggle="modal" data-bs-target="#updateBook"
+                               data-bs-whatever="${item.id}"  onclick=" updateBook(${item.id})"><i class="bi bi-pen"></i></button></td>
+                 <td class="btn-change"><button  class="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModalDelete"
+                               data-bs-whatever="${item.id}" onclick="deleteBook(${item.id})"><i class="bi bi-trash3-fill"></i></button></td>
+                </tr>`
+        })
+        document.getElementById('drawTable').innerHTML = drawTable;
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

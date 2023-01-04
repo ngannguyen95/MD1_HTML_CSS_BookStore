@@ -1,0 +1,68 @@
+const database = [
+    {
+        id: 1,
+        name: 'Sức mạnh của người mẹ Nhật',
+        category: 'Gia đình',
+        price: 76000,
+        img: 'http://static.nhanam.com.vn/thumb/0x230/crop/Books/Images/2018/6/21/NQK26Y4Y.jpg',
+        amount: 100,
+    },
+    {
+        id: 2,
+        name: 'Bí mật về con chó lúc nửa đêm',
+        category: 'Thiếu niên',
+        price: 60000,
+        img: 'http://static.nhanam.com.vn/thumb/0x230/crop/Books/Images/2019/10/25/KMGRSVAR.jpg',
+        amount: 100,
+    },
+    {
+        id: 3,
+        name: 'Người đưa diều',
+        category: 'Phát triển bản thân',
+        price: 87200,
+        img: 'http://static.nhanam.com.vn/thumb/0x320/crop/Books/Images/2018/9/12/MQJ6QLRP.jpg',
+        amount: 100,
+    },
+    {
+        id: 4,
+        name: 'Nhà giả kim',
+        category: 'Văn học nước ngoài',
+        price: 63200,
+        img: 'http://static.nhanam.com.vn/thumb/146x226/crop/Books/Images/2020/4/15/HSJA2O66.JPG',
+        amount: 100,
+    },
+    {
+        id: 5,
+        name: 'Tâm hồn tôi',
+        category: 'Văn thơ',
+        price: 36800,
+        img: 'http://static.nhanam.com.vn/thumb/0x230/crop/Books/Images/2015/2/5/KFSMEAPG.jpg',
+        amount: 100,
+    },
+    {
+        id: 6,
+        name: 'Đại nam dật sự và sử ta',
+        category: 'Lịch sử',
+        price: 108000,
+        img: 'http://static.nhanam.com.vn/thumb/0x230/crop/Books/Images/2019/11/22/JT1TYJJ5.jpg',
+        amount: 100,
+    },
+    {
+        id: 7,
+        name: 'Biếm họa Việt Nam',
+        category: 'Thế giới hiện đại',
+        price: 172000,
+        img: 'http://static.nhanam.com.vn/thumb/0x230/crop/Books/Images/2014/7/17/H85XEZ3N.jpg',
+        amount: 100,
+    },
+    {
+        id: 8,
+        name: 'KID START-UP KHỞI NGHIỆP TỪ KHI LÊN 7',
+        category: 'Kinh tế',
+        price: 79200,
+        img: 'http://static.nhanam.com.vn/thumb/0x230/crop/Books/Images/2019/9/4/88J6EWPP.jpg',
+        amount: 100,
+    },
+];
+
+

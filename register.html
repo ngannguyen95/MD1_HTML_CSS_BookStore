@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+<section class="vh-100 bg-image"
+         style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+
+                            <form>
+
+                                <div class="form-outline mb-4">
+                                    <input oninput="validate()" placeholder="Your Name" type="text" id="yourNameInput"
+                                           class="form-control form-control-lg"/>
+                                    <label id="yourName" class="form-label" style="color: red"></label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input oninput="validate()" placeholder="Your Email" type="email"
+                                           id="emailInput" class="form-control form-control-lg"/>
+                                    <label id="yourEmail" class="form-label" style="color: red"></label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input oninput="validate()" placeholder="Password" type="password"
+                                           id="passwordInput" class="form-control form-control-lg"/>
+                                    <label id="password" class="form-label" style="color: red"></label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input oninput="validate()" placeholder="Repeat your password" type="password"
+                                           id="rePasswordInput" class="form-control form-control-lg"/>
+                                    <label id="rePassword" class="form-label" style="color: red"></label>
+                                </div>
+
+                                <div class="form-check d-flex justify-content-center mb-5">
+                                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg"/>
+                                    <label class="form-check-label">
+                                        I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
+                                    </label>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button onclick="submitData() " type="button"
+                                            class="btn btn-success btn-block btn-lg gradient-custom-4 text-body  submitData">
+                                        Register
+                                    </button>
+                                </div>
+
+                                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a
+                                        href="login.html"
+                                        class="fw-bold text-body"><u>Login
+                                    here</u></a></p>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="jsFile/main.js"></script>
+<script>
+    let yourNameIp = document.getElementById('yourNameInput');
+    let emailIp = document.getElementById('emailInput');
+    let passwordIp = document.getElementById('passwordInput');
+    let rePasswordIp = document.getElementById('rePasswordInput');
+    // let submit = document.querySelector(".submitData");
+    let isCheck;
+    let user;
+    const EMAIL_PATTERN = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let arr = JSON.parse(localStorage.getItem('listUser')); //localStorage.getItem('name')= lấy ra dữ liệu trong localStorage có tên là name.
+    if (arr == null) {
+        arr = [];
+    }
+    console.log('arr-------->' + arr)
+
+    function validate() {
+        let check= true;
+        let yourName = yourNameIp.value;
+        let email = emailIp.value;
+        let password = passwordIp.value;
+        let rePassword = rePasswordIp.value;
+        if (yourName.trim() === '') {
+            document.getElementById('yourName').innerHTML = "Không được để trống, vui lòng nhập lại!!";
+            check = false;
+        } else if (yourName.length < 6) {
+            document.getElementById('yourName').innerHTML = "Tên tối thiểu 6 kí tự";
+            check = false;
+        } else if (checkUsernameExit(user)) {
+            document.getElementById('yourName').innerHTML = "Tên đã tồn tại, vui lòng nhập lại";
+        } else {
+            document.getElementById('yourName').innerHTML = "";
+        }
+
+
+        if (email.trim() == "") {
+            document.getElementById('yourEmail').innerHTML = 'Không được để trống, vui lòng nhập lại!!'
+            check = false;
+        } else if (!EMAIL_PATTERN.test(email)) {
+            document.getElementById("yourEmail").innerText = "Email không đúng định dạng !";
+            check = false;
+        } else if (checkEmailExit(email)) {
+            document.getElementById("yourEmail").innerText = "Email đã tồn tại, vui lòng nhập lại";
+        } else {
+            document.getElementById('yourEmail').innerHTML = "";
+        }
+        if (password.trim() == "") {
+            document.getElementById('password').innerHTML = 'Không được để trống!!';
+            check = false;
+        } else if (password.length < 8) {
+            document.getElementById('password').innerHTML = 'Mật khẩu ít nhất 8 kí tự!';
+            check = false;
+        } else {
+            document.getElementById('password').innerHTML = '';
+        }
+
+        if (rePassword != password) {
+            document.getElementById('rePassword').innerHTML = 'Mật khẩu không trùng khớp!';
+            check = false;
+        } else {
+            document.getElementById('rePassword').innerHTML = '';
+
+        }
+
+        if (check) {
+            isCheck = true;
+            user = new UserName(yourName, email, password);
+        } else {
+            isCheck = false;
+        }
+    }
+
+
+    function submitData() {
+        if (isCheck) {
+            arr.push(user);
+            localStorage.setItem('listUser', JSON.stringify(arr));
+            location.href = 'login.html';
+        }
+    }
+
+    function checkEmailExit(email) { // check mail trufng nhau
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].email === email) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function checkUsernameExit(userNameCheck) { // check teen trufng nhau
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].username === userNameCheck) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+</body>
+</html>

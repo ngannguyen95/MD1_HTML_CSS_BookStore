@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GIỎ HÀNG</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css"
+          integrity="sha512-YFENbnqHbCRmJt5d+9lHimyEMt8LKSNTMLSaHjvsclnZGICeY/0KYEeiHwD1Ux4Tcao0h60tdcMv+0GljvWyHg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        tr {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #3333">
+    <div class="container-fluid">
+        <a href=""><img style="height: 80px" src="image/logo.png"></a>
+        <a class="navbar-brand" href="http://nhanam.com.vn/tin-tuc/5/gioi-thieu">Giới thiệu</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.html">Trang chủ</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="cart.html">Giỏ hàng</a>
+                </li>
+                <li class="nav-item" id="register">
+
+                </li>
+                <li class="nav-item" id="login">
+
+                </li>
+
+            </ul>
+            <!--            <form class="d-flex">-->
+            <!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+            <!--                &lt;!&ndash;                <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>&ndash;&gt;-->
+            <!--            </form>-->
+        </div>
+    </div>
+</nav>
+
+
+<div style="text-align: center">
+    <h4 style="color: #706059; font-weight: bold ">GIỎ HÀNG</h4>
+    <lable id="validate" style="color: red"></lable>
+</div>
+<br>
+<div id="cart11"></div>
+
+
+<table border="1" style="width: 100%">
+
+    <tr>
+        <th>STT</th>
+        <th>Hình ảnh</th>
+        <th>Tên sách</th>
+        <th>Thể loại</th>
+        <th>Gía</th>
+        <th>Số lượng</th>
+        <th>Thành tiền</th>
+        <th>Xóa</th>
+    </tr>
+    <tbody id="cart"></tbody>
+</table>
+<h3>Tổng tiền:
+    <div id="total"></div>
+</h3>
+<!--<button onclick="bill()">xem bill</button>-->
+<!--<div id="bill"></div>-->
+
+
+</body>
+</html>
+<script>
+    const stock = JSON.parse(localStorage.getItem('stock'));
+    let cart = JSON.parse(localStorage.getItem('cart'));
+    if (cart==null){
+        cart = [];
+    }
+    const use = JSON.parse(localStorage.getItem('user'));
+    console.log(cart)
+    function show() {
+        let i = 1;
+        let total = 0
+        let drawTable = cart.map(item => {
+                total += (item.price * item.quantity)
+                return ` <tr>
+                <td>  ${i++}</td>
+                <td><img src = ${item.img} style="height: 50px; width= 50px"></td>
+                <td>  ${item.name}  </td>
+                <td> ${item.category} </td>
+                <td> ${item.price} </td>
+                <td><div class="col">
+                                <a onclick="reduction(this,${item.id})" ><i class="text-dark me-2 bi bi-dash-lg"></i></a><a id="number" style="color: black"  class="border">${item.quantity}</a><a onclick="increase(this, ${item.id})"><i class="text-dark ms-2 bi bi-plus-lg"></i></a>
+                            </div> </td>
+                <td>${item.price * item.quantity}</td>
+               <td class="btn-change"><button  class="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModalDelete"
+                               data-bs-whatever="${item.id}" onclick="deleteBook(${item.id})"><i class="bi bi-trash3-fill"></i></button></td>
+                </tr>`
+        })
+        // console.log(2333, total)
+        document.getElementById('cart').innerHTML = drawTable;
+        document.getElementById('total').innerHTML = total.toLocaleString(('vi', {
+            style: 'currency',
+            currency: 'VND'
+        }));
+    }
+
+    show();
+
+    function update(id,value) {
+        cart.forEach(item => {
+            if(item.id == id){
+                item.quantity = value;
+            }
+        })
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }
+    function reduction(btn,id) { //hàm cho dấu trù, gắn cho 1 id để khi load lại trang ko bị reset lại từ đầu
+        let value =btn.parentElement.querySelector("#number")
+        if (+value.innerText >1){
+            value.innerText = +value.innerText - 1
+        }
+        update(id,+value.innerText)
+    }
+    function increase(btn,id) { // hàm cho dấu cộng, gắn id để không bị load lại trang khi reset
+        let value =btn.parentElement.querySelector("#number")
+        value.innerText = +value.innerText+ 1
+        update(id,+value.innerText)
+    }
+
+    // function amountCart() {
+    //     for (let i = 0; i < cart.length; i++) {
+    //
+    //     }
+    // }
+
+    // function bill() {
+    //     let i = 1;
+    //     let total = 0
+    //     let drawTable = cart.map(item => {
+    //         if (item.user && use.yourName && item.user.toString() === use.yourName.toString()) {
+    //             total += (item.price * item.amountCart)
+    //             return `<br>Tên sản phẩm: ${item.name}, số lượng: ${item.amountCart}, đơn giá:${item.price}</br>`
+    //         }
+    //     })
+    //     drawTable.join(' ')
+    //     drawTable = drawTable + `<br>tổng tiền : ${total} </<br>` + `<button onClick="payment()">Thanh toán</button>`;
+    //     document.getElementById('bill').innerHTML = drawTable;
+    // }
+</script>

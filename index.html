@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .mainBody {
+            height: 300px;
+            /*background-image: url("./image/hinhnen.jpg");*/
+        }
+    </style>
+    <script src="jsFile/stock.js"></script>
+</head>
+<body>
+<!-- nav -->
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #3333">
+    <div class="container-fluid">
+        <a href=""><img style="height: 80px" src="/image/logo.png"></a>
+        <a class="navbar-brand" href="http://nhanam.com.vn/tin-tuc/5/gioi-thieu">Giới thiệu</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.html">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="cart.html">Giỏ hàng</a>
+                </li>
+                <li class="nav-item" id="register">
+
+                </li>
+                <li class="nav-item" id="login">
+
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <!--                <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>-->
+            </form>
+        </div>
+    </div>
+</nav>
+<!--<div class="down" style="height: 100px">-->
+<!--    <ul>-->
+<!--        <li><a href=""><img style="height: 80px" src="image/logo.png"></a></li>-->
+<!--    </ul>-->
+<!--    <div style="height: 50px; color: #ff6219 ; index: 1000"></div>-->
+<!--</div>-->
+
+<div class="mainBody">
+    <div>
+        <!--        <div class="headline"><h3></h3></div>-->
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="1000">
+                    <img src="./image/sdile.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="1000">
+                    <img src="./image/sdile2.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="1000">
+                    <img src="./image/sdile3.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="mt-5">
+        <h3 class="text-center">Sản phẩm bán chạy</h3>
+    </div>
+    <div class="listProduct">
+        <div class="container">
+
+            <div class="row" id="example">
+                <!--                <div id="example"></div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    let user = JSON.parse(localStorage.getItem('user'));
+    if (user != null) {
+        document.getElementById("register").innerText = '';
+        document.getElementById("login").innerHTML = `<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            ${user.yourName}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="listbook.html">Thêm vào sách</a></li>
+            <li><a onclick="logout()" class="dropdown-item" href="#">Đăng xuất</a></li>
+
+          </ul>`;
+        document.getElementById("login").classList.add('dropdown');
+
+        console.log('-------' + user.yourName)
+    } else {
+        document.getElementById("register").innerHTML = `<a id="register" class="nav-link active" aria-current="page" href="register.html">Đăng kí</a>`;
+        document.getElementById("login").innerHTML = `<a id="login" class="nav-link active" aria-current="page" href="login.html">Đăng nhập</a>`;
+        document.getElementById("login").classList.remove("dropdown")
+    }
+
+    function logout() {
+        localStorage.removeItem('user')
+        location.reload()
+    }
+
+    function search() {
+
+    }
+
+
+</script>
+
+
+<!-- footer -->
+<footer class="text-center text-white" style="background-color: #caced1;">
+    <!-- Grid container -->
+    <div class="container p-4">
+        <!-- Section: Images -->
+        <section class="">
+            <div class="row">
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/113.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/111.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/112.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/114.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/115.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/116.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Section: Images -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2020 Copyright:
+        <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script>
+    let stock10 = JSON.parse(localStorage.getItem('stock'));
+    if (!stock10) {
+        localStorage.setItem('stock', JSON.stringify(database));
+    }
+    const database1 = JSON.parse(localStorage.getItem('stock'));
+    // JSON.parse(localStorage.getItem('listUser'))
+    let card = database1.map(item => {
+        return `<div class="col-6 col-sm-4 col-md-3">
+                    <div class="card my-2 ">
+                        <div style="width: 100%;" class="sizing-img overflow-hidden"><img style="width: 100%; height: 250px"
+                                src=${item.img}
+                                class="img-fluid" alt="anime"></div>
+
+
+                        <ul style="list-style: none; padding: 0; margin: 10px">
+                            <li class="fw-bold" style="overflow: hidden; height: 48px" > ${item.name}</li>
+                            <li class="fst-italic">${item.category}</li>
+                            <li class="text-danger">${item.price.toLocaleString('vi', {
+            style: 'currency',
+            currency: 'VND'
+        })}</li>
+                        </ul>
+                        <div class="card-body my-2 p-0 text-center">
+
+                            <button  onclick="cart(${item.id})" >Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+                </div>`
+    })
+
+    console.log(card)
+    card = card.join(' ');
+    // console.log(card)
+    document.getElementById("example").innerHTML = card;
+</script>
+<script>
+    function cart(id) {
+
+        // const user = JSON.parse(localStorage.getItem('user'));
+        let carts = JSON.parse(localStorage.getItem('cart'));
+        if (carts==null){
+            carts = []
+        }
+        console.log(22233, user)
+        let check =false
+        carts.forEach(item=>{
+            if (item.id == id){
+                check = true
+                item.quantity+=1
+            }
+        })
+        if (check == false){
+            let product = {};
+            stock10.forEach(item => {
+                if (item.id.toString() === id.toString()) {
+                    product = item;
+                }
+            })
+            const data = {
+                ...product,
+                quantity:1
+            }
+            carts.push(data);
+        }
+
+            localStorage.setItem('cart', JSON.stringify(carts));
+    }
+</script>
+</body>
+</html>
